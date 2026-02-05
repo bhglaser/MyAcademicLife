@@ -1,0 +1,13 @@
+# Curriculum Vitae
+
+{% for sec in sections %}
+## {{ sec.name }}
+
+{% for entry in entries_by_section.get(sec.name, []) %}
+**{{ entry.title }}**{% if entry.organization %} — {{ entry.organization }}{% endif %}{% if entry.start_date %} ({{ entry.start_date.strftime('%Y') }}–{{ entry.end_date.strftime('%Y') if entry.end_date else 'Present' }}){% endif %}
+{% if entry.location %}{{ entry.location }}{% endif %}
+
+{% if entry.description %}{{ entry.description }}{% endif %}
+
+{% endfor %}
+{% endfor %}
