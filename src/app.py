@@ -1,6 +1,7 @@
 """FastAPI application factory."""
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from src.api.routers import chat, courses, cv, deadlines, goals, journal, projects, publications, tasks
 
@@ -13,6 +14,14 @@ def create_app() -> FastAPI:
             "teaching, coursework, goals, and more.  Includes an AI-powered advisor chatbot."
         ),
         version="0.1.0",
+    )
+
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=["http://localhost:3000"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
     )
 
     # Register routers
