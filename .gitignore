@@ -47,3 +47,8 @@ migrations/versions/__pycache__/
 # Generated files
 generated_cv/
 generated_website/
+
+# Node / Next.js
+node_modules/
+.next/
+next-env.d.ts
