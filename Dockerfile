@@ -7,10 +7,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libpq-dev gcc && \
     rm -rf /var/lib/apt/lists/*
 
-# Copy everything first so pip can find the src/ package
 COPY . .
 RUN pip install --no-cache-dir ".[chatbot]"
 
+# Ensure src/ is importable (pip installs as "profstack", not "src")
+ENV PYTHONPATH=/app
 # Railway sets PORT dynamically; default to 8000 for local use
 ENV PORT=8000
 
