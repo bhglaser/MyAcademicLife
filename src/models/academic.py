@@ -79,6 +79,8 @@ class ResearchProject(Base):
 
     publications: Mapped[list[Publication]] = relationship(back_populates="project")
     deadlines: Mapped[list[Deadline]] = relationship(back_populates="project")
+    project_notes: Mapped[list[ProjectNote]] = relationship(back_populates="project")
+    journal_entries: Mapped[list[JournalEntry]] = relationship(back_populates="project")
 
 
 # ---------------------------------------------------------------------------
@@ -133,6 +135,24 @@ class Deadline(Base):
 
     project_id: Mapped[int | None] = mapped_column(ForeignKey("research_projects.id"))
     project: Mapped[ResearchProject | None] = relationship(back_populates="deadlines")
+
+    created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime, server_default=func.now(), onupdate=func.now()
+    )
+
+
+# ---------------------------------------------------------------------------
+# Project Notes
+# ---------------------------------------------------------------------------
+
+class ProjectNote(Base):
+    __tablename__ = "project_notes"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    content: Mapped[str] = mapped_column(Text)
+    project_id: Mapped[int] = mapped_column(ForeignKey("research_projects.id"))
+    project: Mapped[ResearchProject] = relationship(back_populates="project_notes")
 
     created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
     updated_at: Mapped[datetime] = mapped_column(

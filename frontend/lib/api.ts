@@ -28,15 +28,48 @@ export interface Project {
   updated_at: string;
 }
 
+export interface ProjectNote {
+  id: number;
+  content: string;
+  project_id: number;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface ProjectDetail extends Project {
+  project_notes: ProjectNote[];
+  journal_entries: JournalEntry[];
+  publications: Publication[];
+  deadlines: Deadline[];
+}
+
 export const projects = {
   list: (status?: string) =>
     request<Project[]>(`/api/projects/${status ? `?status=${status}` : ""}`),
+  get: (id: number) => request<Project>(`/api/projects/${id}`),
+  detail: (id: number) => request<ProjectDetail>(`/api/projects/${id}/detail`),
   create: (data: Partial<Project>) =>
     request<Project>("/api/projects/", { method: "POST", body: JSON.stringify(data) }),
   update: (id: number, data: Partial<Project>) =>
     request<Project>(`/api/projects/${id}`, { method: "PATCH", body: JSON.stringify(data) }),
   delete: (id: number) =>
     request<void>(`/api/projects/${id}`, { method: "DELETE" }),
+  notes: {
+    list: (projectId: number) =>
+      request<ProjectNote[]>(`/api/projects/${projectId}/notes`),
+    create: (projectId: number, data: { content: string }) =>
+      request<ProjectNote>(`/api/projects/${projectId}/notes`, {
+        method: "POST",
+        body: JSON.stringify(data),
+      }),
+    update: (noteId: number, data: { content?: string }) =>
+      request<ProjectNote>(`/api/projects/notes/${noteId}`, {
+        method: "PATCH",
+        body: JSON.stringify(data),
+      }),
+    delete: (noteId: number) =>
+      request<void>(`/api/projects/notes/${noteId}`, { method: "DELETE" }),
+  },
 };
 
 // -- Deadlines ---------------------------------------------------------------
@@ -186,13 +219,20 @@ export interface JournalEntry {
   body: string;
   mood: string | null;
   tags: string | null;
+  project_id: number | null;
+  project_title: string | null;
   created_at: string;
   updated_at: string;
 }
 
 export const journal = {
-  list: (mood?: string) =>
-    request<JournalEntry[]>(`/api/journal/${mood ? `?mood=${mood}` : ""}`),
+  list: (params?: { mood?: string; project_id?: number }) => {
+    const sp = new URLSearchParams();
+    if (params?.mood) sp.set("mood", params.mood);
+    if (params?.project_id) sp.set("project_id", String(params.project_id));
+    const qs = sp.toString();
+    return request<JournalEntry[]>(`/api/journal/${qs ? `?${qs}` : ""}`);
+  },
   create: (data: Partial<JournalEntry>) =>
     request<JournalEntry>("/api/journal/", { method: "POST", body: JSON.stringify(data) }),
   update: (id: number, data: Partial<JournalEntry>) =>
@@ -245,13 +285,34 @@ export const cv = {
 
 // -- Chat --------------------------------------------------------------------
 
+export interface ToolAction {
+  tool: string;
+  input: Record<string, unknown>;
+  result: Record<string, unknown>;
+}
+
+export interface ChatMessageRead {
+  id: number;
+  role: "user" | "assistant";
+  content: string;
+  tool_actions: ToolAction[] | null;
+  created_at: string;
+}
+
 export interface ChatResponse {
   reply: string;
+  tool_actions: ToolAction[] | null;
+  user_message_id: number;
+  assistant_message_id: number;
 }
 
 export const chat = {
   send: (message: string) =>
     request<ChatResponse>("/api/chat/", { method: "POST", body: JSON.stringify({ message }) }),
+  history: (limit = 100) =>
+    request<ChatMessageRead[]>(`/api/chat/history?limit=${limit}`),
+  clearHistory: () =>
+    request<void>("/api/chat/history", { method: "DELETE" }),
 };
 
 // -- Publications ------------------------------------------------------------

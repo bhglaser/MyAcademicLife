@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { journal, JournalEntry } from "@/lib/api";
+import Link from "next/link";
+import { journal, JournalEntry, projects as projectsApi, Project } from "@/lib/api";
 
 const MOOD_OPTIONS = ["great", "good", "okay", "stressed", "tired", "focused", "anxious"];
 
@@ -9,11 +10,16 @@ export default function JournalPage() {
   const [entries, setEntries] = useState<JournalEntry[]>([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
-  const [form, setForm] = useState({ title: "", body: "", mood: "", tags: "" });
+  const [form, setForm] = useState({ title: "", body: "", mood: "", tags: "", project_id: "" });
+  const [projectsList, setProjectsList] = useState<Project[]>([]);
 
   const load = () => {
     journal.list().then(setEntries).finally(() => setLoading(false));
   };
+
+  useEffect(() => {
+    projectsApi.list().then(setProjectsList);
+  }, []);
 
   useEffect(load, []);
 
@@ -24,8 +30,9 @@ export default function JournalPage() {
       mood: form.mood || null,
       tags: form.tags || null,
       title: form.title || null,
+      project_id: form.project_id ? Number(form.project_id) : null,
     });
-    setForm({ title: "", body: "", mood: "", tags: "" });
+    setForm({ title: "", body: "", mood: "", tags: "", project_id: "" });
     setShowForm(false);
     load();
   };
@@ -57,12 +64,19 @@ export default function JournalPage() {
             <label className="block text-sm font-medium mb-1">What&apos;s on your mind?</label>
             <textarea required value={form.body} onChange={(e) => setForm({ ...form, body: e.target.value })} rows={5} className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm" />
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-3 gap-4">
             <div>
               <label className="block text-sm font-medium mb-1">Mood</label>
               <select value={form.mood} onChange={(e) => setForm({ ...form, mood: e.target.value })} className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm">
                 <option value="">-- select --</option>
                 {MOOD_OPTIONS.map((m) => <option key={m} value={m}>{m}</option>)}
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-1">Project (optional)</label>
+              <select value={form.project_id} onChange={(e) => setForm({ ...form, project_id: e.target.value })} className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm">
+                <option value="">-- none --</option>
+                {projectsList.map((p) => <option key={p.id} value={p.id}>{p.title}</option>)}
               </select>
             </div>
             <div>
@@ -96,6 +110,11 @@ export default function JournalPage() {
                 </div>
               </div>
               <p className="text-sm text-slate-700 whitespace-pre-wrap">{entry.body}</p>
+              {entry.project_title && (
+                <Link href={`/projects/${entry.project_id}`} className="inline-block mt-2 text-xs bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full hover:bg-blue-100">
+                  {entry.project_title}
+                </Link>
+              )}
               {entry.tags && (
                 <div className="mt-3 flex gap-1 flex-wrap">
                   {entry.tags.split(",").map((tag) => (

@@ -5,7 +5,15 @@ from sqlalchemy.orm import DeclarativeBase, sessionmaker
 
 from src.config import settings
 
-engine = create_engine(settings.database_url, echo=(settings.app_env == "development"))
+_connect_args: dict = {}
+if settings.database_url.startswith("sqlite"):
+    _connect_args["check_same_thread"] = False
+
+engine = create_engine(
+    settings.database_url,
+    echo=(settings.app_env == "development"),
+    connect_args=_connect_args,
+)
 SessionLocal = sessionmaker(bind=engine, autoflush=False, expire_on_commit=False)
 
 

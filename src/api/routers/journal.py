@@ -13,12 +13,15 @@ router = APIRouter(prefix="/journal", tags=["journal"])
 @router.get("/", response_model=list[JournalEntryRead])
 def list_entries(
     mood: str | None = None,
+    project_id: int | None = None,
     limit: int = 50,
     db: Session = Depends(get_db),
 ):
     q = db.query(JournalEntry)
     if mood:
         q = q.filter(JournalEntry.mood == mood)
+    if project_id is not None:
+        q = q.filter(JournalEntry.project_id == project_id)
     return q.order_by(JournalEntry.entry_date.desc()).limit(limit).all()
 
 

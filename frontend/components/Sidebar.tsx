@@ -11,7 +11,7 @@ const NAV_ITEMS = [
   { href: "/goals", label: "Goals", icon: "M13 10V3L4 14h7v7l9-11h-7z" },
   { href: "/journal", label: "Journal", icon: "M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" },
   { href: "/cv", label: "CV", icon: "M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" },
-  { href: "/chat", label: "Advisor", icon: "M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" },
+  { href: "/chat", label: "Assistant", icon: "M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" },
 ];
 
 export default function Sidebar() {
@@ -20,7 +20,7 @@ export default function Sidebar() {
   return (
     <aside className="w-64 bg-slate-900 text-slate-100 min-h-screen flex flex-col">
       <div className="px-6 py-5 border-b border-slate-700">
-        <h1 className="text-lg font-bold tracking-tight">My Academic Life</h1>
+        <h1 className="text-lg font-bold tracking-tight">ProfStack</h1>
         <p className="text-xs text-slate-400 mt-0.5">Personal Assistant</p>
       </div>
 

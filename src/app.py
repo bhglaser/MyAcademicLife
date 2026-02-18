@@ -8,10 +8,10 @@ from src.api.routers import chat, courses, cv, deadlines, goals, journal, projec
 
 def create_app() -> FastAPI:
     app = FastAPI(
-        title="My Academic Life",
+        title="ProfStack",
         description=(
             "A personal academic assistant — track research, publications, deadlines, "
-            "teaching, coursework, goals, and more.  Includes an AI-powered advisor chatbot."
+            "teaching, coursework, goals, and more.  Includes an AI-powered assistant."
         ),
         version="0.1.0",
     )

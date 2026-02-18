@@ -1,6 +1,6 @@
-# My Academic Life
+# ProfStack
 
-A personal academic assistant platform built with **FastAPI** and **PostgreSQL**. Track research projects, publications, deadlines, coursework, teaching, goals, and daily reflections — all in one place. Includes an AI-powered advisor chatbot and tools to generate your CV and academic website from the same data.
+A personal academic assistant platform built with **FastAPI** and **PostgreSQL**. Track research projects, publications, deadlines, coursework, teaching, goals, and daily reflections — all in one place. Includes an AI-powered assistant and tools to generate your CV and academic website from the same data.
 
 ## Features
 
@@ -15,7 +15,7 @@ A personal academic assistant platform built with **FastAPI** and **PostgreSQL**
 | **Journal** | Daily reflections with mood tracking |
 | **CV Generator** | Auto-generate Markdown or LaTeX CV from your data |
 | **Website Generator** | Build a static academic homepage from publications and teaching |
-| **AI Advisor Chatbot** | Get personalised suggestions on time management, research focus, and well-being |
+| **AI Assistant** | Get personalised suggestions on time management, research focus, and well-being |
 
 ## Quick Start
 
@@ -64,7 +64,7 @@ Key settings:
 | Variable | Purpose |
 |---|---|
 | `DATABASE_URL` | PostgreSQL connection string |
-| `ANTHROPIC_API_KEY` | Enables the AI advisor chatbot (optional) |
+| `ANTHROPIC_API_KEY` | Enables the AI assistant (optional) |
 | `SMTP_*` / `NOTIFICATION_EMAIL` | Email deadline reminders (optional) |
 
 ## API Overview
@@ -77,7 +77,7 @@ POST   /api/projects/          Create a project
 GET    /api/deadlines/?upcoming_only=true
 POST   /api/tasks/             Create a task
 PATCH  /api/tasks/{id}         Update (e.g. mark done)
-POST   /api/chat/              Ask the advisor chatbot
+POST   /api/chat/              Ask the assistant
 GET    /api/cv/entries          List CV entries
 GET    /api/goals/             List goals
 POST   /api/journal/           Add a journal entry
@@ -116,7 +116,7 @@ src/
     schemas.py            # Pydantic request/response schemas
     routers/              # REST endpoint routers
   chatbot/
-    advisor.py            # AI advisor (Claude) + rule-based fallback
+    assistant.py          # AI assistant (Claude) + rule-based fallback
     context.py            # Gathers DB context for the chatbot
   services/
     deadline_checker.py   # Background deadline reminder emails
@@ -138,7 +138,7 @@ tests/                    # pytest test suite
 - **Pydantic v2** — request/response validation
 - **Jinja2** — CV and website templating
 - **APScheduler** — background deadline checks
-- **Anthropic Claude** — AI advisor chatbot (optional)
+- **Anthropic Claude** — AI assistant (optional)
 
 ## License
 

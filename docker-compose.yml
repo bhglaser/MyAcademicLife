@@ -4,7 +4,7 @@ services:
     environment:
       POSTGRES_USER: academic
       POSTGRES_PASSWORD: academic
-      POSTGRES_DB: myacademiclife
+      POSTGRES_DB: profstack
     ports:
       - "5432:5432"
     volumes:
@@ -15,7 +15,7 @@ services:
     ports:
       - "8000:8000"
     environment:
-      DATABASE_URL: postgresql://academic:academic@db:5432/myacademiclife
+      DATABASE_URL: postgresql://academic:academic@db:5432/profstack
       APP_ENV: development
     depends_on:
       - db

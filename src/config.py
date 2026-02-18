@@ -5,7 +5,7 @@ from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
     # Database
-    database_url: str = "postgresql://academic:academic@localhost:5432/myacademiclife"
+    database_url: str = "postgresql://academic:academic@localhost:5432/profstack"
 
     # App
     app_env: str = "development"

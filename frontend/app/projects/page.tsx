@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { projects, Project } from "@/lib/api";
 
 const STATUS_OPTIONS = ["active", "on_hold", "completed", "archived"];
@@ -102,7 +103,7 @@ export default function ProjectsPage() {
             <div key={p.id} className="bg-white rounded-xl shadow-sm border border-slate-200 p-5">
               <div className="flex items-start justify-between">
                 <div>
-                  <h3 className="font-semibold">{p.title}</h3>
+                  <Link href={`/projects/${p.id}`} className="font-semibold hover:text-blue-600">{p.title}</Link>
                   {p.description && <p className="text-sm text-slate-500 mt-1">{p.description}</p>}
                   {p.collaborators && <p className="text-xs text-slate-400 mt-2">Collaborators: {p.collaborators}</p>}
                 </div>

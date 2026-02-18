@@ -55,6 +55,10 @@ class ResearchProjectUpdate(BaseModel):
     notes: str | None = None
 
 
+# Defined after all referenced Read schemas are available (see bottom of section)
+# ProjectDetailRead is declared later in the file.
+
+
 # ---------------------------------------------------------------------------
 # Publications
 # ---------------------------------------------------------------------------
@@ -261,6 +265,23 @@ class CVEntryUpdate(BaseModel):
 
 
 # ---------------------------------------------------------------------------
+# Project Notes
+# ---------------------------------------------------------------------------
+
+class ProjectNoteCreate(BaseModel):
+    content: str
+
+
+class ProjectNoteRead(ProjectNoteCreate, TimestampMixin):
+    id: int
+    project_id: int
+
+
+class ProjectNoteUpdate(BaseModel):
+    content: str | None = None
+
+
+# ---------------------------------------------------------------------------
 # Journal
 # ---------------------------------------------------------------------------
 
@@ -270,10 +291,12 @@ class JournalEntryCreate(BaseModel):
     body: str
     mood: str | None = None
     tags: str | None = None
+    project_id: int | None = None
 
 
 class JournalEntryRead(JournalEntryCreate, TimestampMixin):
     id: int
+    project_title: str | None = None
 
 
 class JournalEntryUpdate(BaseModel):
@@ -281,6 +304,7 @@ class JournalEntryUpdate(BaseModel):
     body: str | None = None
     mood: str | None = None
     tags: str | None = None
+    project_id: int | None = None
 
 
 # ---------------------------------------------------------------------------
@@ -334,9 +358,33 @@ class MilestoneUpdate(BaseModel):
 # Chatbot
 # ---------------------------------------------------------------------------
 
+class ChatMessageRead(BaseModel):
+    id: int
+    role: str
+    content: str
+    tool_actions: list[dict] | None = None
+    created_at: datetime
+
+    model_config = ConfigDict(from_attributes=True)
+
+
 class ChatRequest(BaseModel):
     message: str
 
 
 class ChatResponse(BaseModel):
     reply: str
+    tool_actions: list[dict] | None = None
+    user_message_id: int
+    assistant_message_id: int
+
+
+# ---------------------------------------------------------------------------
+# Project Detail (composite response)
+# ---------------------------------------------------------------------------
+
+class ProjectDetailRead(ResearchProjectRead):
+    project_notes: list[ProjectNoteRead] = []
+    journal_entries: list[JournalEntryRead] = []
+    publications: list[PublicationRead] = []
+    deadlines: list[DeadlineRead] = []
