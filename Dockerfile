@@ -8,10 +8,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     rm -rf /var/lib/apt/lists/*
 
 COPY pyproject.toml ./
-RUN pip install --no-cache-dir .
+RUN pip install --no-cache-dir ".[chatbot]"
 
 COPY . .
 
-EXPOSE 8000
+# Railway sets PORT dynamically; default to 8000 for local use
+ENV PORT=8000
 
-CMD ["uvicorn", "src.app:app", "--host", "0.0.0.0", "--port", "8000"]
+# Run migrations then start the server
+CMD alembic upgrade head && uvicorn src.app:app --host 0.0.0.0 --port $PORT

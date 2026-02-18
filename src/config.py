@@ -10,6 +10,7 @@ class Settings(BaseSettings):
     # App
     app_env: str = "development"
     app_secret_key: str = "change-me"
+    cors_origins: str = "http://localhost:3000"
 
     # Chatbot
     anthropic_api_key: str = ""

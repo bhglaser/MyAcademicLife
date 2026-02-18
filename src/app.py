@@ -4,6 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from src.api.routers import chat, courses, cv, deadlines, goals, journal, projects, publications, tasks
+from src.config import settings
 
 
 def create_app() -> FastAPI:
@@ -16,9 +17,10 @@ def create_app() -> FastAPI:
         version="0.1.0",
     )
 
+    origins = [o.strip() for o in settings.cors_origins.split(",")]
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=["http://localhost:3000"],
+        allow_origins=origins,
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
