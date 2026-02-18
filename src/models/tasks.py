@@ -55,6 +55,8 @@ class Task(Base):
     category_id: Mapped[int | None] = mapped_column(ForeignKey("task_categories.id"))
     category: Mapped[TaskCategory | None] = relationship(back_populates="tasks")
 
+    project_id: Mapped[int | None] = mapped_column(ForeignKey("research_projects.id"))
+
     parent_id: Mapped[int | None] = mapped_column(ForeignKey("tasks.id"))
     subtasks: Mapped[list[Task]] = relationship(back_populates="parent")
     parent: Mapped[Task | None] = relationship(back_populates="subtasks", remote_side="Task.id")

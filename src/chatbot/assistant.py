@@ -26,7 +26,10 @@ TOOLS: list[dict[str, Any]] = [
         "name": "create_task",
         "description": (
             "Create a new task in the user's task list. Use this when the user "
-            "asks you to add, create, or schedule a task, to-do item, or action item."
+            "asks you to add, create, or schedule a task, to-do item, or action item. "
+            "When the conversation is about a specific project, always set project_id "
+            "to associate the task with that project. When creating subtasks, set "
+            "parent_id to the ID of the parent task."
         ),
         "input_schema": {
             "type": "object",
@@ -47,6 +50,20 @@ TOOLS: list[dict[str, Any]] = [
                 "due_date": {
                     "type": "string",
                     "description": "Optional due date in YYYY-MM-DD format",
+                },
+                "project_id": {
+                    "type": "integer",
+                    "description": (
+                        "ID of the research project to associate this task with. "
+                        "Look up the project ID from the academic context."
+                    ),
+                },
+                "parent_id": {
+                    "type": "integer",
+                    "description": (
+                        "ID of the parent task, when creating a subtask. "
+                        "Use the task ID returned from a previous create_task call."
+                    ),
                 },
             },
             "required": ["title"],
@@ -121,8 +138,10 @@ def _llm_advice(
                 "overwhelmed, help them prioritize by suggesting the top 3 things to "
                 "focus on today and what can safely be deferred.  Be encouraging but "
                 "honest.  Keep responses concise.\n\n"
-                "You can also create tasks for the user using the create_task tool "
-                "when they ask you to add something to their task list.\n\n"
+                "You can create tasks for the user using the create_task tool "
+                "when they ask you to add something to their task list.  Always "
+                "associate tasks with the relevant project by setting project_id.  "
+                "When creating subtasks, set parent_id to the parent task's ID.\n\n"
                 f"Today's date is {date.today().isoformat()}.\n\n"
                 "--- ACADEMIC CONTEXT ---\n"
                 f"{context}\n"
@@ -254,6 +273,8 @@ def _tool_create_task(
         description=params.get("description"),
         priority=priority,
         due_date=due_date,
+        project_id=params.get("project_id"),
+        parent_id=params.get("parent_id"),
     )
     db.add(task)
     db.commit()
@@ -265,6 +286,8 @@ def _tool_create_task(
         "title": task.title,
         "priority": task.priority.value,
         "due_date": task.due_date.isoformat() if task.due_date else None,
+        "project_id": task.project_id,
+        "parent_id": task.parent_id,
     }
 
 

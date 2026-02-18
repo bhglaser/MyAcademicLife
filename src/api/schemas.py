@@ -143,6 +143,7 @@ class TaskCreate(BaseModel):
     is_recurring: bool = False
     recurrence_rule: str | None = None
     category_id: int | None = None
+    project_id: int | None = None
     parent_id: int | None = None
 
 
@@ -163,6 +164,7 @@ class TaskUpdate(BaseModel):
     is_recurring: bool | None = None
     recurrence_rule: str | None = None
     category_id: int | None = None
+    project_id: int | None = None
     parent_id: int | None = None
 
 

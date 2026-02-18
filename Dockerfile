@@ -12,8 +12,7 @@ RUN pip install --no-cache-dir ".[chatbot]"
 
 # Ensure src/ is importable (pip installs as "profstack", not "src")
 ENV PYTHONPATH=/app
-# Railway sets PORT dynamically; default to 8000 for local use
-ENV PORT=8000
+ENV PORT=8080
 
 # Run migrations then start the server
 CMD alembic upgrade head && uvicorn src.app:app --host 0.0.0.0 --port $PORT
