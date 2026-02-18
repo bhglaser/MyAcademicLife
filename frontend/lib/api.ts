@@ -118,10 +118,12 @@ export interface Task {
   actual_hours: number | null;
   is_recurring: boolean;
   category_id: number | null;
+  project_id: number | null;
   parent_id: number | null;
   created_at: string;
   updated_at: string;
   completed_at: string | null;
+  subtasks: Task[];
 }
 
 export interface TaskCategory {

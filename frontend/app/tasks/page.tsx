@@ -136,31 +136,57 @@ export default function TasksPage() {
       ) : (
         <div className="space-y-2">
           {items.map((t) => (
-            <div key={t.id} className={`bg-white rounded-xl shadow-sm border border-slate-200 p-4 flex items-center gap-4 ${t.status === "done" ? "opacity-60" : ""}`}>
-              <button
-                onClick={() => t.status !== "done" && quickComplete(t)}
-                className={`w-5 h-5 rounded border-2 flex-shrink-0 flex items-center justify-center ${
-                  t.status === "done" ? "bg-green-500 border-green-500 text-white" : "border-slate-300 hover:border-green-400"
-                }`}
-              >
-                {t.status === "done" && (
-                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                  </svg>
-                )}
-              </button>
-              <div className="flex-1 min-w-0">
-                <p className={`text-sm font-medium ${t.status === "done" ? "line-through" : ""}`}>{t.title}</p>
-                {t.description && <p className="text-xs text-slate-400 truncate">{t.description}</p>}
-              </div>
-              <span className={`text-xs px-2 py-1 rounded-full ${PRIORITY_COLORS[t.priority] || ""}`}>{t.priority}</span>
-              {t.due_date && <span className="text-xs text-slate-500">{new Date(t.due_date).toLocaleDateString()}</span>}
-              <button onClick={() => startEdit(t)} className="text-xs text-slate-500 hover:text-slate-700">Edit</button>
-              <button onClick={() => handleDelete(t.id)} className="text-xs text-red-500 hover:text-red-700">Delete</button>
-            </div>
+            <TaskRow key={t.id} task={t} depth={0} onComplete={quickComplete} onEdit={startEdit} onDelete={handleDelete} />
           ))}
         </div>
       )}
+    </>
+  );
+}
+
+function TaskRow({
+  task: t,
+  depth,
+  onComplete,
+  onEdit,
+  onDelete,
+}: {
+  task: Task;
+  depth: number;
+  onComplete: (t: Task) => void;
+  onEdit: (t: Task) => void;
+  onDelete: (id: number) => void;
+}) {
+  return (
+    <>
+      <div
+        className={`bg-white rounded-xl shadow-sm border border-slate-200 p-4 flex items-center gap-4 ${t.status === "done" ? "opacity-60" : ""}`}
+        style={{ marginLeft: depth * 24 }}
+      >
+        <button
+          onClick={() => t.status !== "done" && onComplete(t)}
+          className={`w-5 h-5 rounded border-2 flex-shrink-0 flex items-center justify-center ${
+            t.status === "done" ? "bg-green-500 border-green-500 text-white" : "border-slate-300 hover:border-green-400"
+          }`}
+        >
+          {t.status === "done" && (
+            <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+          )}
+        </button>
+        <div className="flex-1 min-w-0">
+          <p className={`text-sm font-medium ${t.status === "done" ? "line-through" : ""}`}>{t.title}</p>
+          {t.description && <p className="text-xs text-slate-400 truncate">{t.description}</p>}
+        </div>
+        <span className={`text-xs px-2 py-1 rounded-full ${PRIORITY_COLORS[t.priority] || ""}`}>{t.priority}</span>
+        {t.due_date && <span className="text-xs text-slate-500">{new Date(t.due_date).toLocaleDateString()}</span>}
+        <button onClick={() => onEdit(t)} className="text-xs text-slate-500 hover:text-slate-700">Edit</button>
+        <button onClick={() => onDelete(t.id)} className="text-xs text-red-500 hover:text-red-700">Delete</button>
+      </div>
+      {t.subtasks?.map((sub) => (
+        <TaskRow key={sub.id} task={sub} depth={depth + 1} onComplete={onComplete} onEdit={onEdit} onDelete={onDelete} />
+      ))}
     </>
   );
 }

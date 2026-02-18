@@ -3,7 +3,7 @@
 from datetime import datetime
 
 from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, selectinload
 
 from src.api.schemas import (
     TaskCategoryCreate,
@@ -43,7 +43,9 @@ def list_tasks(
     category_id: int | None = None,
     db: Session = Depends(get_db),
 ):
-    q = db.query(Task).filter(Task.parent_id.is_(None))  # top-level only
+    q = db.query(Task).options(
+        selectinload(Task.subtasks)
+    ).filter(Task.parent_id.is_(None))  # top-level only; subtasks nested inside
     if status:
         q = q.filter(Task.status == status)
     if priority:

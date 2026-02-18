@@ -151,6 +151,7 @@ class TaskRead(TaskCreate, TimestampMixin):
     id: int
     actual_hours: float | None = None
     completed_at: datetime | None = None
+    subtasks: list["TaskRead"] = []
 
 
 class TaskUpdate(BaseModel):
