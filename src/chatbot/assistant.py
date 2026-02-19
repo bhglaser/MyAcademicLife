@@ -118,7 +118,7 @@ def _llm_advice(
     except ImportError:
         return (
             "The anthropic package is not installed.  "
-            "Run `pip install 'profstack[chatbot]'` to enable AI advice.",
+            "Run `pip install 'faculty-run[chatbot]'` to enable AI advice.",
             None,
         )
 

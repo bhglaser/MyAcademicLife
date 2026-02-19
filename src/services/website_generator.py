@@ -57,10 +57,10 @@ def _minimal_html(
 ) -> str:
     parts = [
         "<!DOCTYPE html><html><head><meta charset='utf-8'>",
-        "<title>Academic Homepage</title>",
+        "<title>Homepage</title>",
         "<style>body{font-family:sans-serif;max-width:48rem;margin:2rem auto;padding:0 1rem}</style>",
         "</head><body>",
-        "<h1>Academic Homepage</h1>",
+        "<h1>Homepage</h1>",
     ]
 
     if bio_entries:

@@ -3,9 +3,9 @@ requires = ["setuptools>=68.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "profstack"
+name = "faculty-run"
 version = "0.1.0"
-description = "A personal academic assistant platform — track research, deadlines, teaching, and more."
+description = "Protect your focus — track research, deadlines, teaching, and more."
 requires-python = ">=3.11"
 dependencies = [
     "fastapi>=0.110,<1",

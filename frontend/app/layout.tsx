@@ -3,8 +3,8 @@ import Sidebar from "@/components/Sidebar";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "ProfStack",
-  description: "Personal academic assistant and productivity platform",
+  title: "faculty.run",
+  description: "Protect your focus",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

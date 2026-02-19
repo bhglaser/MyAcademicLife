@@ -112,7 +112,7 @@ export default function ChatPage() {
   return (
     <div className="flex flex-col h-[calc(100vh-4rem)]">
       <div className="flex items-center justify-between mb-4">
-        <h1 className="text-2xl font-bold">Academic Assistant</h1>
+        <h1 className="text-2xl font-bold">Assistant</h1>
         {messages.length > 1 && (
           <button
             onClick={handleClearHistory}

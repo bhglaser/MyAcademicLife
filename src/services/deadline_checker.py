@@ -50,7 +50,7 @@ def _send_reminder(deadline: Deadline, days_left: int) -> None:
         return
 
     msg = EmailMessage()
-    msg["Subject"] = f"[Academic Reminder] {deadline.title} — {days_left} day(s) left"
+    msg["Subject"] = f"[faculty.run] {deadline.title} — {days_left} day(s) left"
     msg["From"] = settings.smtp_user
     msg["To"] = settings.notification_email
     msg.set_content(

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-ProfStack is a personal academic assistant platform. FastAPI + PostgreSQL backend with a Next.js frontend. Tracks research projects, publications, deadlines, tasks, courses, teaching, goals, journal entries, and CV data. Includes an AI assistant (Claude API, optional) and generators for CVs and academic websites.
+faculty.run ("Protect your focus") is a personal academic platform. FastAPI + PostgreSQL backend with a Next.js frontend. Tracks research projects, publications, deadlines, tasks, courses, teaching, goals, journal entries, and CV data. Includes an AI assistant (Claude API, optional) and generators for CVs and academic websites.
 
 ## Common Commands
 

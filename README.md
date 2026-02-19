@@ -1,6 +1,6 @@
-# ProfStack
+# faculty.run
 
-A personal academic assistant platform built with **FastAPI** and **PostgreSQL**. Track research projects, publications, deadlines, coursework, teaching, goals, and daily reflections — all in one place. Includes an AI-powered assistant and tools to generate your CV and academic website from the same data.
+**Protect your focus.** A personal academic platform built with **FastAPI** and **PostgreSQL**. Track research projects, publications, deadlines, coursework, teaching, goals, and daily reflections — all in one place. Includes an AI-powered assistant and tools to generate your CV and academic website from the same data.
 
 ## Features
 
@@ -91,7 +91,7 @@ Full interactive docs: `http://localhost:8000/docs`
 python scripts/generate_cv.py > my_cv.md
 ```
 
-## Generating Your Academic Website
+## Generating Your Website
 
 ```bash
 python scripts/generate_website.py

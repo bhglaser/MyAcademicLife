@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY . .
 RUN pip install --no-cache-dir ".[chatbot]"
 
-# Ensure src/ is importable (pip installs as "profstack", not "src")
+# Ensure src/ is importable (pip installs as "faculty-run", not "src")
 ENV PYTHONPATH=/app
 ENV PORT=8080
 

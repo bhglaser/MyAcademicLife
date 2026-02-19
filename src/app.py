@@ -9,9 +9,9 @@ from src.config import settings
 
 def create_app() -> FastAPI:
     app = FastAPI(
-        title="ProfStack",
+        title="faculty.run",
         description=(
-            "A personal academic assistant — track research, publications, deadlines, "
+            "Protect your focus — track research, publications, deadlines, "
             "teaching, coursework, goals, and more.  Includes an AI-powered assistant."
         ),
         version="0.1.0",

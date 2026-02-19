@@ -6,7 +6,7 @@ from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
     # Database
-    database_url: str = "postgresql://academic:academic@localhost:5432/profstack"
+    database_url: str = "postgresql://academic:academic@localhost:5432/facultyrun"
 
     @model_validator(mode="after")
     def fix_postgres_scheme(self) -> "Settings":

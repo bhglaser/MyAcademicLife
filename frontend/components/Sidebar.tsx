@@ -20,8 +20,8 @@ export default function Sidebar() {
   return (
     <aside className="w-64 bg-slate-900 text-slate-100 min-h-screen flex flex-col">
       <div className="px-6 py-5 border-b border-slate-700">
-        <h1 className="text-lg font-bold tracking-tight">ProfStack</h1>
-        <p className="text-xs text-slate-400 mt-0.5">Personal Assistant</p>
+        <h1 className="text-lg font-bold tracking-tight">faculty.run</h1>
+        <p className="text-xs text-slate-400 mt-0.5">Protect your focus</p>
       </div>
 
       <nav className="flex-1 px-3 py-4 space-y-1">
